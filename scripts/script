@@ -1,0 +1,73 @@
+# 1. ENTRADA DE DATOS MANUALES
+$UsuarioResponsable = Read-Host "Ingrese el nombre del usuario o responsable"
+$EtiquetaFisica = Read-Host "Ingrese ID de Etiqueta de Inventario"
+$UbicacionLab = Read-Host "Ingrese Numero de Laboratorio / Puesto"
+
+# 2. RECOLECCION DE HARDWARE DETALLADO (RF-06)
+$CS = Get-CimInstance Win32_ComputerSystem
+$BIOS = Get-CimInstance Win32_Bios
+$CPU = Get-CimInstance Win32_Processor
+$GPU = Get-CimInstance Win32_VideoController
+$RAM = Get-CimInstance Win32_PhysicalMemory
+$Disks = Get-CimInstance Win32_DiskDrive
+$Network = Get-CimInstance Win32_NetworkAdapter | Where-Object { $_.PhysicalAdapter -eq $true -and $_.MACAddress -ne $null }
+
+# 3. RECOLECCION DE SOFTWARE COMPLETO (RF-07)
+# Escaneo de ambas arquitecturas de registro para no omitir ningun programa
+$RegPaths = @(
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*",
+    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*"
+)
+$SoftwareCompleto = Get-ItemProperty $RegPaths | 
+    Where-Object { $_.DisplayName -ne $null } | 
+    Select-Object @{N='Programa';E={$_.DisplayName}}, @{N='Version';E={$_.DisplayVersion}}, @{N='Editor';E={$_.Publisher}} | 
+    Sort-Object Programa
+
+# 4. ESTRUCTURA DEL OBJETO DE DATOS
+$DataReport = [PSCustomObject]@{
+    contexto_administrativo = @{
+        responsable    = $UsuarioResponsable
+        etiqueta_id    = $EtiquetaFisica
+        ubicacion      = $UbicacionLab
+        fecha_registro = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+    }
+    identificacion_unica = @{
+        hostname     = $CS.Name
+        serie_chasis = $BIOS.SerialNumber
+        uuid         = (Get-CimInstance Win32_ComputerSystemProduct).UUID
+    }
+    especificaciones_hardware = @{
+        placa_madre = "$($BIOS.Manufacturer) $($BIOS.SMBIOSBIOSVersion)"
+        procesador  = @{
+            modelo  = $CPU.Name
+            nucleos = $CPU.NumberOfCores
+            hilos   = $CPU.NumberOfLogicalProcessors
+        }
+        memoria_ram = $RAM | ForEach-Object { 
+            @{ Slot = $_.DeviceLocator; Capacidad_GB = [math]::Round($_.Capacity / 1GB, 2); Velocidad = $_.Speed } 
+        }
+        almacenamiento = $Disks | ForEach-Object { 
+            @{ Modelo = $_.Model; Serial = $_.SerialNumber; Tamaño_GB = [math]::Round($_.Size / 1GB, 2) } 
+        }
+        video = $GPU | ForEach-Object { @{ Adaptador = $_.Name; Driver = $_.DriverVersion } }
+        red_mac = $Network.MACAddress -join " | "
+    }
+    entorno_logico = @{
+        sistema_operativo = (Get-CimInstance Win32_OperatingSystem).Caption
+        arquitectura      = (Get-CimInstance Win32_OperatingSystem).OSArchitecture
+        listado_software  = $SoftwareCompleto
+    }
+    gestion_mantenimiento = @{
+        tipo_accion  = "" # Preventivo / Correctivo
+        hallazgos    = "" # Detalle manual
+        estado_equipo = "Operativo"
+    }
+}
+
+# 5. SALIDA
+$JsonOutput = $DataReport | ConvertTo-Json -Depth 10
+$Path = "$HOME\Desktop\FULL_REPORT_$($CS.Name).json"
+$JsonOutput | Out-File $Path -Encoding utf8
+
+Write-Host "`nREPORTE GENERADO: $Path" -ForegroundColor Cyan
+Write-Host "Se han registrado $($SoftwareCompleto.Count) programas instalados." -ForegroundColor Yellow

@@ -1,0 +1,145 @@
+# =========================================================
+# REPORTE COMPLETO DE EQUIPO - MANTENIMIENTO TI
+# Genera un archivo JSON con datos de hardware, software
+# y datos administrativos ingresados manualmente.
+# =========================================================
+
+# 1. ENTRADA DE DATOS MANUALES
+$UsuarioResponsable = Read-Host "Ingrese el nombre del usuario o responsable"
+$EtiquetaFisica = Read-Host "Ingrese ID de Etiqueta de Inventario"
+$UbicacionLab = Read-Host "Ingrese Numero de Laboratorio / Puesto"
+
+# 2. RECOLECCION DE HARDWARE DETALLADO
+$CS = Get-CimInstance Win32_ComputerSystem
+$BIOS = Get-CimInstance Win32_Bios
+$CPU = Get-CimInstance Win32_Processor
+$GPU = Get-CimInstance Win32_VideoController
+$RAM = Get-CimInstance Win32_PhysicalMemory
+$Disks = Get-CimInstance Win32_DiskDrive
+$OS = Get-CimInstance Win32_OperatingSystem
+$ProductoSistema = Get-CimInstance Win32_ComputerSystemProduct
+
+$Network = Get-CimInstance Win32_NetworkAdapter | 
+    Where-Object { $_.PhysicalAdapter -eq $true -and $_.MACAddress -ne $null }
+
+# 3. RECOLECCION DE SOFTWARE COMPLETO
+$RegPaths = @(
+    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*",
+    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*"
+)
+
+$SoftwareCompleto = Get-ItemProperty $RegPaths -ErrorAction SilentlyContinue | 
+    Where-Object { $_.DisplayName -ne $null } | 
+    Select-Object `
+        @{N='Programa';E={$_.DisplayName}}, `
+        @{N='Version';E={$_.DisplayVersion}}, `
+        @{N='Editor';E={$_.Publisher}} | 
+    Sort-Object Programa
+
+# 4. ESTRUCTURA DEL OBJETO DE DATOS
+$DataReport = [PSCustomObject]@{
+    contexto_administrativo = @{
+        responsable    = $UsuarioResponsable
+        etiqueta_id    = $EtiquetaFisica
+        ubicacion      = $UbicacionLab
+        fecha_registro = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+    }
+
+    identificacion_unica = @{
+        hostname     = $CS.Name
+        serie_chasis = $BIOS.SerialNumber
+        uuid         = $ProductoSistema.UUID
+    }
+
+    especificaciones_hardware = @{
+        placa_madre = "$($BIOS.Manufacturer) $($BIOS.SMBIOSBIOSVersion)"
+
+        procesador = @{
+            modelo  = $CPU.Name
+            nucleos = $CPU.NumberOfCores
+            hilos   = $CPU.NumberOfLogicalProcessors
+        }
+
+        memoria_ram = @(
+            $RAM | ForEach-Object {
+                @{
+                    Slot         = $_.DeviceLocator
+                    Capacidad_GB = [math]::Round($_.Capacity / 1GB, 2)
+                    Velocidad    = $_.Speed
+                }
+            }
+        )
+
+        almacenamiento = @(
+            $Disks | ForEach-Object {
+                @{
+                    Modelo     = $_.Model
+                    Serial     = $_.SerialNumber
+                    Tamaño_GB  = [math]::Round($_.Size / 1GB, 2)
+                }
+            }
+        )
+
+        video = @(
+            $GPU | ForEach-Object {
+                @{
+                    Adaptador = $_.Name
+                    Driver    = $_.DriverVersion
+                }
+            }
+        )
+
+        red_mac = $Network.MACAddress -join " | "
+    }
+
+    entorno_logico = @{
+        sistema_operativo = $OS.Caption
+        arquitectura      = $OS.OSArchitecture
+        listado_software  = @($SoftwareCompleto)
+    }
+
+    gestion_mantenimiento = @{
+        tipo_accion   = ""
+        hallazgos     = ""
+        estado_equipo = "Operativo"
+    }
+}
+
+# 5. CONVERSION A JSON
+$JsonOutput = $DataReport | ConvertTo-Json -Depth 10
+
+# 6. RUTA DE GUARDADO CORREGIDA
+# Obtiene la ruta real del Escritorio, aunque esté en OneDrive o en español
+$DesktopPath = [Environment]::GetFolderPath("Desktop")
+
+# Si no encuentra el escritorio, usa Documentos como respaldo
+if ([string]::IsNullOrWhiteSpace($DesktopPath) -or !(Test-Path $DesktopPath)) {
+    $DesktopPath = [Environment]::GetFolderPath("MyDocuments")
+}
+
+# Crea el nombre del archivo
+$FileName = "FULL_REPORT_$($CS.Name).json"
+
+# Crea la ruta completa correctamente
+$Path = Join-Path $DesktopPath $FileName
+
+# 7. GUARDAR ARCHIVO
+try {
+    $JsonOutput | Out-File -FilePath $Path -Encoding utf8 -Force
+
+    if (Test-Path $Path) {
+        Write-Host "`nREPORTE GENERADO CORRECTAMENTE:" -ForegroundColor Green
+        Write-Host $Path -ForegroundColor Cyan
+        Write-Host "`nSe han registrado $($SoftwareCompleto.Count) programas instalados." -ForegroundColor Yellow
+
+        # Abre la carpeta donde quedó el archivo
+        explorer.exe $DesktopPath
+    }
+    else {
+        Write-Host "No se pudo confirmar la creacion del archivo." -ForegroundColor Red
+    }
+}
+catch {
+    Write-Host "`nERROR AL GUARDAR EL ARCHIVO:" -ForegroundColor Red
+    Write-Host $_.Exception.Message -ForegroundColor Red
+}
