@@ -1,240 +1,183 @@
 /* ========================================== */
-/* ESTILOS GENERALES Y ESTRUCTURA             */
+/* ESTILOS FLUIDOS, LETRA GRANDE Y ESTÁTICOS  */
 /* ========================================== */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
 body { 
-    font-family: Arial, sans-serif; 
-    background-color: #eef2f5; 
+    font-family: 'Nunito', sans-serif; 
+    background-color: #f7f9fc; 
+    color: #4a5568; 
     margin: 0; 
-    padding: 20px; 
+    padding: 40px 20px; 
+    font-size: 18px; 
 }
 
 .main-container { 
-    max-width: 1300px; 
+    max-width: 1100px; 
     margin: auto; 
 }
 
 h2 { 
     text-align: center; 
-    color: #0056b3; 
+    color: #2d3748; 
+    font-size: 38px; 
+    font-weight: 700;
     margin-bottom: 5px; 
 }
 
 .subtitulo { 
     text-align: center; 
-    color: #555; 
-    margin-bottom: 25px; 
+    color: #a0aec0; 
+    font-size: 20px; 
+    margin-bottom: 40px; 
 }
 
-/* ========================================== */
-/* NAVEGACIÓN ENTRE PÁGINAS                   */
-/* ========================================== */
-.nav-superior-derecha {
-    text-align: right; 
-    margin-bottom: 10px;
-}
-
-.nav-superior-izquierda {
-    margin-bottom: 20px;
-}
-
-.btn-navegacion {
-    text-decoration: none; 
-    padding: 10px 20px; 
-    background-color: #17a2b8; 
-    color: white; 
-    border-radius: 5px; 
-    font-weight: bold;
-    display: inline-block;
-    transition: 0.2s;
-}
-
-.btn-navegacion:hover {
-    background-color: #138496;
-}
-
-.btn-volver {
-    text-decoration: none; 
-    color: #0056b3; 
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.btn-volver:hover {
-    text-decoration: underline;
-    color: #004494;
-}
-
-/* ========================================== */
-/* PANEL DE INSPECCIÓN (DIVISIÓN DE PANTALLA) */
-/* ========================================== */
+/* PANELES REDONDEADOS Y ESTÁTICOS */
 .split-layout { 
     display: flex; 
-    gap: 25px; 
+    gap: 40px; 
     align-items: flex-start; 
 }
 
-.panel-izquierdo { 
+.panel-izquierdo, .panel-derecho { 
     flex: 1; 
-    padding: 20px; 
-    background: #f8f9fa; 
-    border: 1px solid #c8d2db; 
-    border-radius: 8px; 
+    padding: 35px; 
+    background: #ffffff; 
+    border-radius: 24px; 
+    box-shadow: 0 20px 40px rgba(149, 157, 165, 0.1); 
+    border: none; 
+    /* Se eliminó la transición de transformación para que no se mueva */
+    transition: box-shadow 0.3s ease;
 }
 
-.panel-derecho { 
-    flex: 1; 
-    padding: 20px; 
-    background: #ffffff; 
-    border: 1px solid #c8d2db; 
-    border-radius: 8px; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+.panel-izquierdo:hover, .panel-derecho:hover {
+    /* Solo intensifica suavemente la sombra, pero no salta */
+    box-shadow: 0 25px 50px rgba(149, 157, 165, 0.15);
 }
 
 .panel-titulo {
-    color: #0056b3; 
+    color: #2d3748; 
+    font-size: 24px; 
+    font-weight: 700;
     margin-top: 0;
+    margin-bottom: 25px;
 }
 
-.info-oculta {
-    display: none; 
-    margin-top: 20px;
-}
-
-.separador {
-    border: 0; 
-    border-top: 1px solid #eee; 
-    margin: 20px 0;
-}
-
-/* ========================================== */
-/* FORMULARIOS, CHECKLIST Y BOTONES           */
-/* ========================================== */
+/* CHECKLIST Y FORMULARIOS */
 .checklist-group { 
-    margin-bottom: 15px; 
-    padding-left: 15px; 
-    border-left: 4px solid #0056b3; 
-    background: #fdfdfd; 
-    padding-top: 5px; 
-    padding-bottom: 5px; 
-}
-
-h4 { 
-    margin-top: 0; 
-    margin-bottom: 10px; 
-    color: #333; 
+    margin-bottom: 25px; 
 }
 
 .checklist-item { 
     display: flex; 
     align-items: center; 
-    margin-bottom: 8px; 
+    margin-bottom: 12px; 
+    padding: 12px 15px;
+    background-color: #f7f9fc;
+    border-radius: 16px; 
     cursor: pointer; 
+    font-size: 18px; 
+    color: #4a5568;
+    transition: background-color 0.3s ease;
+}
+
+.checklist-item:hover { 
+    background-color: #edf2f7; 
 }
 
 .checklist-item input { 
-    width: 18px; 
-    height: 18px; 
-    margin-right: 10px; 
+    width: 24px; 
+    height: 24px; 
+    margin-right: 15px; 
     cursor: pointer; 
-}
-
-.label-fuerte {
-    font-weight: bold;
+    accent-color: #4299e1; 
 }
 
 input[type="file"], select, textarea { 
     width: 100%; 
-    padding: 10px; 
+    padding: 15px; 
     box-sizing: border-box; 
-    margin-top: 5px; 
-    margin-bottom: 15px; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
+    margin-bottom: 20px; 
+    border: 2px solid #edf2f7; 
+    border-radius: 16px; 
+    font-family: 'Nunito', sans-serif;
+    font-size: 18px; 
+    background-color: #ffffff;
+    color: #2d3748;
+    transition: all 0.3s ease;
 }
 
-button { 
+input[type="file"]:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.15);
+}
+
+/* BOTONES REDONDOS ESTÁTICOS */
+button, .btn-navegacion { 
     width: 100%; 
-    padding: 12px; 
+    padding: 18px; 
     border: none; 
-    border-radius: 5px; 
-    font-weight: bold; 
-    font-size: 15px; 
+    border-radius: 50px; 
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700; 
+    font-size: 20px; 
     cursor: pointer; 
-    transition: 0.2s; 
+    transition: background-color 0.3s ease; /* Solo cambia el color, no el tamaño */
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
 }
 
-.btn-cargar { background-color: #28a745; color: white; }
-.btn-cargar:hover { background-color: #218838; }
-
-.btn-guardar { background-color: #0056b3; color: white; margin-top: 10px; }
-.btn-guardar:hover { background-color: #004494; }
-
-/* ========================================== */
-/* PÁGINA DE HISTORIAL (RF-08)                */
-/* ========================================== */
-.panel-historial {
-    max-width: 800px;
-    margin: auto;
-    background: #eef2f5;
+.btn-cargar { 
+    background-color: #48bb78; 
+    color: white; 
+    box-shadow: 0 10px 20px rgba(72, 187, 120, 0.2);
 }
+.btn-cargar:hover { background-color: #38a169; }
+
+.btn-guardar { 
+    background-color: #4299e1; 
+    color: white; 
+    margin-top: 10px; 
+    box-shadow: 0 10px 20px rgba(66, 153, 225, 0.2);
+}
+.btn-guardar:hover { background-color: #3182ce; }
 
 .btn-historial {
-    background-color: #17a2b8;
+    background-color: #ffffff;
+    color: #4299e1;
+    border: 2px solid #4299e1;
 }
+.btn-historial:hover { background-color: #4299e1; color: white; }
 
-.btn-historial:hover {
-    background-color: #138496;
-}
-
-.mt-20 { margin-top: 20px; }
-
+/* TARJETAS DE HISTORIAL (RF-08) */
 .tarjeta-resultado {
-    background: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(149, 157, 165, 0.1);
 }
 
-.borde-preventivo { border-left: 8px solid #28a745; }
-.borde-correctivo { border-left: 8px solid #d9534f; }
-.texto-preventivo { color: #28a745; }
-.texto-correctivo { color: #d9534f; }
-
-.tarjeta-titulo {
-    margin-top: 0;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
-
-.texto-primario { color: #0056b3; }
-
-.grid-historial {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 15px;
-    font-size: 15px;
-}
+.borde-preventivo { border-top: 8px solid #48bb78; }
+.borde-correctivo { border-top: 8px solid #f56565; }
+.texto-preventivo { color: #48bb78; font-weight: bold; }
+.texto-correctivo { color: #f56565; font-weight: bold; }
 
 .badge-estado {
-    background: #eef2f5;
-    padding: 3px 8px;
-    border-radius: 4px;
+    background: #edf2f7;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 16px;
 }
-
-.tipo-accion { font-weight: bold; }
 
 .detalles-hallazgos {
-    margin-top: 20px;
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.detalles-hallazgos p {
-    margin-bottom: 0;
-    font-family: monospace;
-    font-size: 14px;
+    margin-top: 30px;
+    background: #f7f9fc;
+    padding: 25px;
+    border-radius: 16px;
+    border: none;
+    color: #4a5568;
+    font-size: 18px;
 }
