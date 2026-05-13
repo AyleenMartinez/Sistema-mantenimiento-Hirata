@@ -1,6 +1,23 @@
 # 🛠️ Guía de Uso: Plataforma de Mantenimiento TI (Etapa 2)
 
+## 📥 Instalación y Configuración Local
+Para utilizar esta plataforma en su computador, debe descargar los archivos localmente. Elija una de las siguientes opciones:
 
+**Opción A: Usando Git (Recomendado)**
+1. Abra la terminal o línea de comandos en su computador.
+2. Ejecute el siguiente comando para clonar el repositorio:
+   `git clone https://github.com/AyleenMartinez/Sistema-mantenimiento-Hirata.git`
+3. Ingrese a la carpeta descargada (`cd Sistema-mantenimiento-Hirata`).
+4. Haga doble clic en el archivo `index.html` para abrir la plataforma en su navegador web.
+
+**Opción B: Descarga Directa (ZIP)**
+1. En la página principal de este repositorio en GitHub, haga clic en el botón verde **"Code"**.
+2. Seleccione **"Download ZIP"**.
+3. Extraiga el archivo `.zip` en su computador.
+4. Abra la carpeta descomprimida y haga doble clic en el archivo `index.html`.
+
+
+## 🚀 Uso del sistema
 ### Paso 1: Extracción de Datos (Script)
 * Diríjase al computador físico o máquina virtual que le corresponde inspeccionar.
 * Ejecute el script de PowerShell oficial que se encuentra en este repositorio (carpeta script).
