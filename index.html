@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Mantenimiento TI - Etapa 2</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <!-- Navegación -->
+        <div class="nav-superior-derecha">
+            <a href="historial.html" class="btn-navegacion">📁 Ver Historial de Mantenimiento</a>
+        </div>
+
+        <h2>🛠️ Panel de Mantenimiento TI</h2>
+        <p class="subtitulo">Comparación en tiempo real: Levantamiento automático (AS IS) vs Inspección Técnica.</p>
+
+        <div class="split-layout">
+
+            <!-- PANEL IZQUIERDO: EXTRACCIÓN DEL JSON -->
+            <div class="panel-izquierdo">
+                <h3 class="panel-titulo">1. Escáner del Equipo (JSON)</h3>
+                <label class="label-fuerte">Seleccionar archivo de PowerShell:</label>
+                <input type="file" id="jsonFileInput" accept=".json">
+                <button type="button" class="btn-cargar" id="btnCargarJson">Leer y Extraer Datos</button>
+
+                <div id="infoEquipo" class="info-oculta">
+                    <div id="datosHardware"></div>
+                </div>
+            </div>
+
+            <!-- PANEL DERECHO: CHECKLIST MANUAL -->
+            <div class="panel-derecho">
+                <h3 class="panel-titulo">2. Checklist Técnico (Inspección)</h3>
+                <form id="mantenimientoForm">
+
+                    <div class="checklist-group">
+                        <h4>Revisión Física y Hardware</h4>
+                        <label class="checklist-item"><input type="checkbox" id="chk1"> Chasis sin golpes y ventilación
+                            limpia</label>
+                        <label class="checklist-item"><input type="checkbox" id="chk2"> Periféricos operativos
+                            (Teclado/Mouse)</label>
+                        <label class="checklist-item"><input type="checkbox" id="chk3"> Monitor sin daños y cables
+                            firmes</label>
+                        <label class="checklist-item"><input type="checkbox" id="chk4"> Temperaturas normales (sin ruido
+                            excesivo)</label>
+                    </div>
+
+                    <div class="checklist-group">
+                        <h4>Revisión Lógica y Software</h4>
+                        <label class="checklist-item"><input type="checkbox" id="chk5"> Arranque y Post-BIOS con
+                            velocidad normal</label>
+                        <label class="checklist-item"><input type="checkbox" id="chk6"> Sistema Operativo y Antivirus
+                            validados</label>
+                        <label class="checklist-item"><input type="checkbox" id="chk7"> Ofimática y Navegadores
+                            operativos</label>
+                        <label class="checklist-item"><input type="checkbox" id="chk8"> Herramientas TI operativas
+                            (Desarrollo/Diseño)</label>
+                    </div>
+
+                    <hr class="separador">
+
+                    <label class="label-fuerte">Tipo de Mantenimiento Aplicado:</label>
+                    <select id="tipoMantenimiento" required>
+                        <option value="">Seleccione...</option>
+                        <option value="Preventivo">Preventivo (Limpieza, optimización, parches)</option>
+                        <option value="Correctivo">Correctivo (Reparación de fallas, cambios físicos)</option>
+                    </select>
+
+                    <label class="label-fuerte">Hallazgos y Observaciones:</label>
+                    <textarea id="observaciones" rows="4" required
+                        placeholder="Ej: Se detectó alta temperatura, se limpiaron ventiladores. Se actualizó el navegador..."></textarea>
+
+                    <button type="button" class="btn-guardar" onclick="guardarRegistro()">Guardar y Descargar Reporte
+                        Consolidado</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

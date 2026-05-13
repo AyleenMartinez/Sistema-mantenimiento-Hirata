@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Mantenimiento - Etapa 2</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <!-- Navegación -->
+        <div class="nav-superior-izquierda">
+            <a href="index.html" class="btn-volver">⬅ Volver al Panel de Inspección</a>
+        </div>
+
+        <h2>📂 Consulta de Historial de Mantenimiento (Avance 3 - RF-08)</h2>
+        <p class="subtitulo">Sube un reporte previamente guardado para visualizar la intervención realizada en el
+            equipo.</p>
+
+        <div class="panel-izquierdo panel-historial">
+            <label class="label-fuerte">Seleccionar Reporte de Mantenimiento (.json descargado):</label>
+            <input type="file" id="historialFileInput" accept=".json">
+            <button type="button" class="btn-cargar btn-historial" id="btnVerHistorial">Consultar Registro
+                Histórico</button>
+
+            <div id="tarjetaHistorial" class="info-oculta mt-20"></div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

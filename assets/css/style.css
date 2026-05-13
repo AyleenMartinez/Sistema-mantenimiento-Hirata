@@ -1,0 +1,240 @@
+/* ========================================== */
+/* ESTILOS GENERALES Y ESTRUCTURA             */
+/* ========================================== */
+body { 
+    font-family: Arial, sans-serif; 
+    background-color: #eef2f5; 
+    margin: 0; 
+    padding: 20px; 
+}
+
+.main-container { 
+    max-width: 1300px; 
+    margin: auto; 
+}
+
+h2 { 
+    text-align: center; 
+    color: #0056b3; 
+    margin-bottom: 5px; 
+}
+
+.subtitulo { 
+    text-align: center; 
+    color: #555; 
+    margin-bottom: 25px; 
+}
+
+/* ========================================== */
+/* NAVEGACIÓN ENTRE PÁGINAS                   */
+/* ========================================== */
+.nav-superior-derecha {
+    text-align: right; 
+    margin-bottom: 10px;
+}
+
+.nav-superior-izquierda {
+    margin-bottom: 20px;
+}
+
+.btn-navegacion {
+    text-decoration: none; 
+    padding: 10px 20px; 
+    background-color: #17a2b8; 
+    color: white; 
+    border-radius: 5px; 
+    font-weight: bold;
+    display: inline-block;
+    transition: 0.2s;
+}
+
+.btn-navegacion:hover {
+    background-color: #138496;
+}
+
+.btn-volver {
+    text-decoration: none; 
+    color: #0056b3; 
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.btn-volver:hover {
+    text-decoration: underline;
+    color: #004494;
+}
+
+/* ========================================== */
+/* PANEL DE INSPECCIÓN (DIVISIÓN DE PANTALLA) */
+/* ========================================== */
+.split-layout { 
+    display: flex; 
+    gap: 25px; 
+    align-items: flex-start; 
+}
+
+.panel-izquierdo { 
+    flex: 1; 
+    padding: 20px; 
+    background: #f8f9fa; 
+    border: 1px solid #c8d2db; 
+    border-radius: 8px; 
+}
+
+.panel-derecho { 
+    flex: 1; 
+    padding: 20px; 
+    background: #ffffff; 
+    border: 1px solid #c8d2db; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+}
+
+.panel-titulo {
+    color: #0056b3; 
+    margin-top: 0;
+}
+
+.info-oculta {
+    display: none; 
+    margin-top: 20px;
+}
+
+.separador {
+    border: 0; 
+    border-top: 1px solid #eee; 
+    margin: 20px 0;
+}
+
+/* ========================================== */
+/* FORMULARIOS, CHECKLIST Y BOTONES           */
+/* ========================================== */
+.checklist-group { 
+    margin-bottom: 15px; 
+    padding-left: 15px; 
+    border-left: 4px solid #0056b3; 
+    background: #fdfdfd; 
+    padding-top: 5px; 
+    padding-bottom: 5px; 
+}
+
+h4 { 
+    margin-top: 0; 
+    margin-bottom: 10px; 
+    color: #333; 
+}
+
+.checklist-item { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 8px; 
+    cursor: pointer; 
+}
+
+.checklist-item input { 
+    width: 18px; 
+    height: 18px; 
+    margin-right: 10px; 
+    cursor: pointer; 
+}
+
+.label-fuerte {
+    font-weight: bold;
+}
+
+input[type="file"], select, textarea { 
+    width: 100%; 
+    padding: 10px; 
+    box-sizing: border-box; 
+    margin-top: 5px; 
+    margin-bottom: 15px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+}
+
+button { 
+    width: 100%; 
+    padding: 12px; 
+    border: none; 
+    border-radius: 5px; 
+    font-weight: bold; 
+    font-size: 15px; 
+    cursor: pointer; 
+    transition: 0.2s; 
+}
+
+.btn-cargar { background-color: #28a745; color: white; }
+.btn-cargar:hover { background-color: #218838; }
+
+.btn-guardar { background-color: #0056b3; color: white; margin-top: 10px; }
+.btn-guardar:hover { background-color: #004494; }
+
+/* ========================================== */
+/* PÁGINA DE HISTORIAL (RF-08)                */
+/* ========================================== */
+.panel-historial {
+    max-width: 800px;
+    margin: auto;
+    background: #eef2f5;
+}
+
+.btn-historial {
+    background-color: #17a2b8;
+}
+
+.btn-historial:hover {
+    background-color: #138496;
+}
+
+.mt-20 { margin-top: 20px; }
+
+.tarjeta-resultado {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.borde-preventivo { border-left: 8px solid #28a745; }
+.borde-correctivo { border-left: 8px solid #d9534f; }
+.texto-preventivo { color: #28a745; }
+.texto-correctivo { color: #d9534f; }
+
+.tarjeta-titulo {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.texto-primario { color: #0056b3; }
+
+.grid-historial {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 15px;
+    font-size: 15px;
+}
+
+.badge-estado {
+    background: #eef2f5;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.tipo-accion { font-weight: bold; }
+
+.detalles-hallazgos {
+    margin-top: 20px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.detalles-hallazgos p {
+    margin-bottom: 0;
+    font-family: monospace;
+    font-size: 14px;
+}
